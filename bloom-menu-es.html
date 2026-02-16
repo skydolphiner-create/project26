@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bloom Boba Tea · Menú</title>
+
+  <style>
+    :root{
+      --bg:#fff6fb;
+      --card:rgba(255,255,255,0.88);
+      --card2:rgba(255,255,255,0.92);
+      --text:#1f2937;
+      --muted:#6b7280;
+      --border:rgba(243,206,226,0.85);
+      --accent:#ff4fa3;
+      --accent2:#7c3aed;
+      --radius:26px;
+      --shadow:0 16px 42px rgba(0,0,0,0.12);
+      --shadowSoft:0 10px 24px rgba(255,79,163,0.12);
+    }
+
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+      color:var(--text);
+      background:var(--bg);
+      min-height:100vh;
+    }
+
+    /* FOTO STYLE BG (mobile friendly) */
+    .photo-bg{
+      position:fixed;
+      inset:0;
+      z-index:-3;
+      background-image:
+        url("bg.jpg");
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+      filter:saturate(1.05) contrast(1.05);
+    }
+    /* fallback gradient if no bg.jpg */
+    .fallback{
+      position:fixed;
+      inset:0;
+      z-index:-4;
+      background:
+        radial-gradient(900px 700px at 20% 0%, rgba(255,79,163,0.18), transparent 60%),
+        radial-gradient(900px 700px at 100% 30%, rgba(124,58,237,0.16), transparent 60%),
+        linear-gradient(180deg, #fff6fb, #f7fbff);
+    }
+    /* frosted overlay so text stays readable on phone */
+    .glass{
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      background:linear-gradient(180deg, rgba(255,246,251,0.86), rgba(247,251,255,0.90));
+      backdrop-filter: blur(10px);
+    }
+
+    /* hand-drawn paper texture (SVG) */
+    .paper{
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      opacity:0.20;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%23000' stroke-opacity='0.12' stroke-width='2'%3E%3Cpath d='M24 36c20-10 34-10 54 0'/%3E%3Cpath d='M24 54c32-10 64-10 96 0'/%3E%3Cpath d='M24 72c38-10 86-10 128 0'/%3E%3Cpath d='M24 90c58-10 118-10 178 0'/%3E%3Cpath d='M24 108c72-10 140-10 204 0'/%3E%3C/g%3E%3Cg fill='%23ff4fa3' fill-opacity='0.10'%3E%3Ccircle cx='210' cy='40' r='14'/%3E%3Ccircle cx='46' cy='210' r='18'/%3E%3Ccircle cx='212' cy='214' r='22'/%3E%3C/g%3E%3C/svg%3E");
+      background-size:320px 320px;
+      pointer-events:none;
+    }
+
+    .wrap{
+      max-width:720px;
+      margin:auto;
+      padding:20px 14px 80px;
+    }
+
+    /* Header (mobile-first) */
+    header{
+      background:var(--card2);
+      border:2px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px 14px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .logo{
+      width:74px; height:74px;
+      border-radius:18px;
+      overflow:hidden;
+      border:2px solid var(--border);
+      background:#fff;
+      box-shadow:var(--shadowSoft);
+      flex:0 0 auto;
+    }
+    .logo img{width:100%;height:100%;object-fit:contain;}
+
+    h1{
+      margin:0;
+      font-size:22px;
+      font-weight:950;
+      letter-spacing:0.2px;
+      line-height:1.1;
+    }
+    .sub{
+      margin:6px 0 0;
+      font-size:12.5px;
+      color:var(--muted);
+      line-height:1.55;
+    }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px dashed rgba(255,79,163,0.42);
+      background:rgba(255,79,163,0.12);
+      color:#a11a5b;
+      font-size:12px;
+      font-weight:850;
+      white-space:nowrap;
+    }
+    .chip.alt{
+      border:1px dashed rgba(124,58,237,0.36);
+      background:rgba(124,58,237,0.10);
+      color:#4c1d95;
+    }
+
+    /* Cards */
+    .grid{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+    }
+
+    .card{
+      background:var(--card);
+      border:2px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:14px;
+      position:relative;
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background:
+        radial-gradient(420px 250px at 0% 0%, rgba(255,79,163,0.12), transparent 60%),
+        radial-gradient(420px 250px at 100% 20%, rgba(124,58,237,0.11), transparent 60%);
+      pointer-events:none;
+    }
+
+    .head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      position:relative;
+      z-index:1;
+    }
+
+    .h2{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:16px;
+      font-weight:950;
+      margin:0;
+      line-height:1.15;
+    }
+
+    .price{
+      font-size:11.5px;
+      font-weight:950;
+      padding:8px 10px;
+      border-radius:999px;
+      background:rgba(255,79,163,0.12);
+      border:1px solid rgba(255,79,163,0.25);
+      color:#a11a5b;
+      white-space:nowrap;
+    }
+
+    .note{
+      margin:10px 0 10px;
+      font-size:12.5px;
+      color:var(--muted);
+      position:relative;
+      z-index:1;
+    }
+
+    ul{
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:grid;
+      grid-template-columns:1fr;
+      gap:9px;
+      position:relative;
+      z-index:1;
+    }
+
+    li{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 11px;
+      border-radius:18px;
+      background:rgba(255,250,252,0.95);
+      border:1px solid rgba(243,207,225,0.90);
+      font-size:13.5px;
+    }
+
+    .badge{
+      font-size:11px;
+      font-weight:950;
+      padding:4px 10px;
+      border-radius:999px;
+      background:rgba(255,79,163,0.14);
+      border:1px solid rgba(255,79,163,0.25);
+      color:#a11a5b;
+      white-space:nowrap;
+    }
+    .b2{
+      background:rgba(124,58,237,0.10);
+      border:1px solid rgba(124,58,237,0.22);
+      color:#4c1d95;
+    }
+
+    /* Big hand-drawn illustration per card */
+    .illu{
+      position:absolute;
+      right:-8px;
+      bottom:-16px;
+      width:150px;
+      opacity:0.22;
+      transform: rotate(-6deg);
+      z-index:0;
+      pointer-events:none;
+    }
+    .illu.left{
+      right:auto; left:-10px;
+      transform: rotate(8deg);
+      opacity:0.20;
+      width:160px;
+    }
+
+    footer{
+      margin-top:28px;
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    @media(min-width:760px){
+      .wrap{max-width:980px;}
+      .grid{grid-template-columns:1fr 1fr;}
+      ul{grid-template-columns:1fr 1fr;}
+      header .sub{font-size:13px;}
+      h1{font-size:26px;}
+    }
+
+    @media print{
+      .photo-bg,.fallback,.glass,.paper{display:none;}
+      body{background:#fff;}
+      header,.card{box-shadow:none;background:#fff;}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="fallback"></div>
+  <div class="photo-bg"></div>
+  <div class="glass"></div>
+  <div class="paper"></div>
+
+  <div class="wrap">
+
+    <header>
+      <div class="logo"><img src="logo.jpeg" alt="Bloom Logo"></div>
+      <div>
+        <h1>Bloom Boba Tea 🌸</h1>
+        <div class="sub">
+          Blvd. Bernardo Quintana 502, Centro Sur · 76090 Santiago de Querétaro, Qro.<br>
+          Dentro de <b>Chedraui Select Centro Sur</b>
+        </div>
+        <div class="chips">
+          <span class="chip">
+            <!-- mini clock doodle -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="9" stroke="#a11a5b" stroke-width="2.2"/>
+              <path d="M12 7v6l4 2" stroke="#a11a5b" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+            Lun–Dom · 11:00–21:00
+          </span>
+          <span class="chip alt">
+            <!-- mini boba doodle -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M7 7h10l-1.2 14H8.2L7 7Z" stroke="#4c1d95" stroke-width="2.2" stroke-linejoin="round"/>
+              <path d="M10 3l6 6" stroke="#4c1d95" stroke-width="2.2" stroke-linecap="round"/>
+              <circle cx="10" cy="17" r="1.4" fill="#4c1d95"/>
+              <circle cx="14" cy="18.5" r="1.4" fill="#4c1d95"/>
+            </svg>
+            Azúcar/Hielo 0–100%
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+
+      <!-- Cheese Foam -->
+      <section class="card">
+        <div class="head">
+          <h2 class="h2">
+            <!-- icon: cheese foam -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M6 10c2-2 10-2 12 0" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M7 10h10l-1 11c-.1 1-1 2-2 2H10c-1 0-2-1-2-2L7 10Z" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/>
+              <path d="M8 8c2-2 6-2 8 0" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M9 6c2-2 4-2 6 0" stroke="#111" stroke-width="2.2" stroke-linecap="round" opacity=".7"/>
+            </svg>
+            Cheese Foam
+          </h2>
+          <span class="price">$95</span>
+        </div>
+        <div class="note">Espuma cremosa + té/fruta. (Sí, es “wow” 🧀✨)</div>
+        <ul>
+          <li>Tiramisú Cheese <span class="badge">⭐ Top</span></li>
+          <li>Jasmine Cheese</li>
+          <li>Durazno Cheese</li>
+          <li>Strawberry Cheese <span class="badge">⭐</span></li>
+          <li>Mango Cheese <span class="badge">⭐</span></li>
+          <li>Pineapple Cheese</li>
+          <li>Drangogrape Cheese</li>
+          <li>Oreo Matcha Cheese</li>
+          <li>Matcha Cheese</li>
+          <li>Oreo Cheese</li>
+          <li>Taro Cheese</li>
+        </ul>
+
+        <!-- hand-drawn big cup + dripping foam -->
+        <svg class="illu" viewBox="0 0 180 180" fill="none">
+          <path d="M56 58c22-16 46-16 68 0" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+          <path d="M52 68h76l-9 86c-1 8-7 14-15 14H76c-8 0-14-6-15-14l-9-86Z" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M92 26l34 34" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+          <path d="M92 26l-10 10" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+          <path d="M70 78c20 10 40 10 60 0" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+          <path d="M78 50c-2 10 10 10 8 18-2 8-14 4-10 14" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".65"/>
+          <circle cx="78" cy="132" r="6" fill="#111"/>
+          <circle cx="102" cy="142" r="6" fill="#111"/>
+          <circle cx="118" cy="126" r="6" fill="#111"/>
+        </svg>
+      </section>
+
+      <!-- Creme Brulee -->
+      <section class="card">
+        <div class="head">
+          <h2 class="h2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M12 3c2 3 2 5 0 8-2-3-2-5 0-8Z" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/>
+              <path d="M7 13c2-2 8-2 10 0" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M6 14h12l-1 7c-.1 1-1 2-2 2H9c-1 0-2-1-2-2l-1-7Z" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/>
+            </svg>
+            Crème Brûlée
+          </h2>
+          <span class="price">$95</span>
+        </div>
+        <div class="note">Sabor tostado tipo postre: dulce, suave y adictivo 🔥</div>
+        <ul>
+          <li>Crème Brûlée Boba Milk Tea <span class="badge">⭐</span></li>
+          <li>Crème Brûlée Taro Milk</li>
+          <li>Crème Brûlée Matcha Milk</li>
+          <li>Crème Brûlée Cocoa Milk</li>
+          <li>Crème Brûlée Taro Smoothie</li>
+          <li>Crème Brûlée Matcha Smoothie</li>
+          <li>Cookies & Cream Brûlée Smoothie</li>
+        </ul>
+
+        <!-- hand-drawn brûlée spoon -->
+        <svg class="illu left" viewBox="0 0 180 180" fill="none">
+          <path d="M62 120c18 18 46 18 64 0" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+          <path d="M72 86c6 14 34 14 40 0" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+          <path d="M90 30c14 2 24 14 22 28-2 16-22 28-22 28S68 74 66 58c-2-14 8-26 24-28Z" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M120 134l30 30" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+          <path d="M132 144c8 2 12 6 14 14" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+        </svg>
+      </section>
+
+      <!-- Especiales -->
+      <section class="card">
+        <div class="head">
+          <h2 class="h2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2 2-6Z" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/>
+              <path d="M18 13l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3Z" stroke="#111" stroke-width="2.2" stroke-linejoin="round" opacity=".7"/>
+            </svg>
+            Especiales Bloom
+          </h2>
+          <span class="price">$95</span>
+        </div>
+        <div class="note">Combinaciones “firma” con vibes de postre ✨</div>
+        <ul>
+          <li>Oreo Brûlée Green Milk Tea <span class="badge">⭐</span></li>
+          <li>Dirty Matcha</li>
+          <li>Ice Cream Taro Milk</li>
+          <li>Bloom Cocoa Milk</li>
+          <li>Mixberry Cheese Foam <span class="badge">⭐</span></li>
+          <li>Brûlée Matcha Oreo Smoothie</li>
+          <li>Brûlée Taro Oreo Smoothie</li>
+        </ul>
+
+        <!-- hand-drawn hearts -->
+        <svg class="illu" viewBox="0 0 180 180" fill="none">
+          <path d="M70 70c10-14 30-8 30 8 0 22-30 34-30 34S40 100 40 78c0-16 20-22 30-8Z" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M126 82c8-10 24-6 24 6 0 18-24 28-24 28s-24-10-24-28c0-12 16-16 24-6Z" stroke="#111" stroke-width="4" stroke-linejoin="round" opacity=".8"/>
+          <path d="M44 132c22 6 44 6 66 0" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".55"/>
+        </svg>
+      </section>
+
+      <!-- Milk Tea -->
+      <section class="card">
+        <div class="head">
+          <h2 class="h2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M6 8h12l-1 14H7L6 8Z" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/>
+              <path d="M9 4c2-2 4-2 6 0" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M8 10c4 2 8 2 12 0" stroke="#111" stroke-width="2.2" stroke-linecap="round" opacity=".7"/>
+              <circle cx="9" cy="18" r="1.3" fill="#111"/>
+              <circle cx="12" cy="19.2" r="1.3" fill="#111"/>
+              <circle cx="15" cy="18" r="1.3" fill="#111"/>
+            </svg>
+            Milk Tea
+          </h2>
+          <span class="price">Ch $75 · G $85</span>
+        </div>
+        <div class="note">Clásicos con leche: suaves, aromáticos y súper boba mood.</div>
+        <ul>
+          <li>House Milk Tea <span class="badge">⭐</span></li>
+          <li>Jasmine Milk Tea</li>
+          <li>Brown Sugar Milk Tea <span class="badge">⭐</span></li>
+          <li>Matcha Milk Tea</li>
+          <li>Taro Milk Tea</li>
+          <li>Cookies & Cream</li>
+          <li>Horchata Milk Tea</li>
+          <li>Chai Vainilla Milk Tea</li>
+          <li>Strawberry Milk Tea</li>
+          <li>Chocolate Milk Tea</li>
+        </ul>
+
+        <!-- hand-drawn tea leaf -->
+        <svg class="illu left" viewBox="0 0 180 180" fill="none">
+          <path d="M44 124c42-6 86-50 102-94 8 42-10 106-52 124-22 10-44 2-50-30Z" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M62 122c20-14 40-38 54-66" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+        </svg>
+      </section>
+
+      <!-- Smoothies -->
+      <section class="card">
+        <div class="head">
+          <h2 class="h2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M7 7h10l-1 15H8L7 7Z" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/>
+              <path d="M9 2h6" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M8 11c4 2 8 2 12 0" stroke="#111" stroke-width="2.2" stroke-linecap="round" opacity=".7"/>
+            </svg>
+            Smoothies
+          </h2>
+          <span class="price">Ch $80 · G $90</span>
+        </div>
+        <div class="note">Fruta + hielo: fresco, cremoso y perfecto para Querétaro ☀️</div>
+        <ul>
+          <li>Mango <span class="badge">⭐</span></li>
+          <li>Durazno</li>
+          <li>Strawberry <span class="badge">⭐</span></li>
+          <li>Lychee</li>
+          <li>Maracuyá</li>
+          <li>Sunny Orange</li>
+          <li>Sweet Pineapple</li>
+          <li>Drangogrape</li>
+          <li>Spicy Mango · $95 <span class="badge b2">🌶️</span></li>
+          <li>Spicy Strawberry · $95 <span class="badge b2">🌶️</span></li>
+        </ul>
+
+        <!-- hand-drawn fruit -->
+        <svg class="illu" viewBox="0 0 180 180" fill="none">
+          <path d="M60 112c0-26 18-44 40-44s40 18 40 44-18 44-40 44-40-18-40-44Z" stroke="#111" stroke-width="4"/>
+          <path d="M100 52c0-10 6-18 18-20" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+          <path d="M88 40c6 8 14 12 26 12" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".75"/>
+          <path d="M78 112c18 10 34 10 52 0" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".65"/>
+        </svg>
+      </section>
+
+      <!-- Fruit Tea -->
+      <section class="card">
+        <div class="head">
+          <h2 class="h2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="8" stroke="#111" stroke-width="2.2"/>
+              <path d="M12 4v16M4 12h16" stroke="#111" stroke-width="2.2" stroke-linecap="round" opacity=".7"/>
+              <path d="M7 8c3 3 7 3 10 0" stroke="#111" stroke-width="2.2" stroke-linecap="round" opacity=".55"/>
+              <path d="M7 16c3-3 7-3 10 0" stroke="#111" stroke-width="2.2" stroke-linecap="round" opacity=".55"/>
+            </svg>
+            Fruit Tea
+          </h2>
+          <span class="price">Ch $79 · G $89</span>
+        </div>
+        <div class="note">Té verde + fruta: ligero, aromático y refrescante.</div>
+        <ul>
+          <li>Bloom Fruit Tea <span class="badge">⭐</span></li>
+          <li>Strawberry Green Tea</li>
+          <li>Durazno Green Tea</li>
+          <li>Lychee Green Tea</li>
+          <li>Mango Green Tea</li>
+          <li>Sunny Orange Tea</li>
+          <li>Honey Lemon Tea <span class="badge">⭐</span></li>
+          <li>Sweet Pineapple Tea</li>
+          <li>Drangogrape Tea</li>
+          <li>Magic Butterfly 🦋</li>
+        </ul>
+
+        <!-- hand-drawn butterfly -->
+        <svg class="illu left" viewBox="0 0 180 180" fill="none">
+          <path d="M90 84c-6-10-22-20-36-10-16 12 0 40 24 34 8-2 10-10 12-24Z" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M90 84c6-10 22-20 36-10 16 12 0 40-24 34-8-2-10-10-12-24Z" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M90 80v56" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".75"/>
+          <path d="M86 76c-10-8-16-18-18-30" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".6"/>
+          <path d="M94 76c10-8 16-18 18-30" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".6"/>
+        </svg>
+      </section>
+
+      <!-- Toppings -->
+      <section class="card">
+        <div class="head">
+          <h2 class="h2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <circle cx="8" cy="16" r="2" fill="#111"/>
+              <circle cx="12" cy="18" r="2" fill="#111"/>
+              <circle cx="16" cy="16" r="2" fill="#111"/>
+              <path d="M6 10h12l-1 11H7L6 10Z" stroke="#111" stroke-width="2.2" stroke-linejoin="round" opacity=".75"/>
+            </svg>
+            Toppings
+          </h2>
+          <span class="price">¡Personaliza!</span>
+        </div>
+        <div class="note">Elige tus toppings favoritos (se pueden combinar).</div>
+        <ul>
+          <li>Tapioca <span class="badge b2">$15</span></li>
+          <li>Lychee Jelly <span class="badge b2">$15</span></li>
+          <li>Rainbow Jelly <span class="badge b2">$15</span></li>
+          <li>Jelly de Maracuyá <span class="badge b2">$15</span></li>
+          <li>Mango Popping Boba <span class="badge b2">$15</span></li>
+          <li>Strawberry Popping Boba <span class="badge b2">$15</span></li>
+          <li>Oreo Cookie <span class="badge b2">$10</span></li>
+          <li>Cheese Foam <span class="badge b2">$15</span></li>
+          <li>Crema Batida <span class="badge b2">$12</span></li>
+        </ul>
+
+        <!-- hand-drawn pearls -->
+        <svg class="illu" viewBox="0 0 180 180" fill="none">
+          <circle cx="70" cy="104" r="10" stroke="#111" stroke-width="4"/>
+          <circle cx="104" cy="110" r="9" stroke="#111" stroke-width="4" opacity=".9"/>
+          <circle cx="130" cy="96" r="8" stroke="#111" stroke-width="4" opacity=".85"/>
+          <circle cx="92" cy="136" r="8" stroke="#111" stroke-width="4" opacity=".75"/>
+          <path d="M54 76c28-10 58-10 84 0" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".55"/>
+        </svg>
+      </section>
+
+    </div>
+
+    <footer>
+      💖 Gracias por visitar Bloom Boba Tea · Centro Sur · Querétaro 🌸<br/>
+      Tip: Puedes pedir menos hielo o menos azúcar (0–100%).
+    </footer>
+
+  </div>
+</body>
+</html>
