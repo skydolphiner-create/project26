@@ -7,83 +7,78 @@
 
   <style>
     :root{
-      --bg:#fff6fb;
-      --card:rgba(255,255,255,0.88);
-      --card2:rgba(255,255,255,0.92);
-      --text:#1f2937;
-      --muted:#6b7280;
-      --border:rgba(243,206,226,0.85);
-      --accent:#ff4fa3;
-      --accent2:#7c3aed;
+      --olive-900:#23311f;
+      --olive-800:#2f3f29;
+      --olive-700:#3f532f;
+      --olive-600:#556c3d;
+      --olive-500:#6f8a4d;
+      --olive-200:#dfe9d0;
+
+      --paper:#fbf9f1;
+      --paper2:#fffdf7;
+      --ink:#1f2937;
+      --muted:#56665a;
+      --border:rgba(111,138,77,0.35);
+
+      --shadow:0 18px 48px rgba(0,0,0,0.12);
+      --shadowSoft:0 10px 24px rgba(111,138,77,0.18);
       --radius:26px;
-      --shadow:0 16px 42px rgba(0,0,0,0.12);
-      --shadowSoft:0 10px 24px rgba(255,79,163,0.12);
     }
 
     *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-      color:var(--text);
-      background:var(--bg);
+      color:var(--ink);
       min-height:100vh;
+
+      /* base olive-y ambience */
+      background:
+        radial-gradient(1200px 800px at 10% 0%, rgba(111,138,77,0.18), transparent 55%),
+        radial-gradient(1200px 800px at 100% 30%, rgba(63,83,47,0.14), transparent 60%),
+        linear-gradient(180deg, #f3f6ed, #eef3e4);
     }
 
-    /* FOTO STYLE BG (mobile friendly) */
+    /* PHOTO STYLE BACKGROUND (optional)
+       1) Put a photo named bg.jpg next to this HTML
+       2) It will appear softly behind the paper */
     .photo-bg{
-      position:fixed;
-      inset:0;
-      z-index:-3;
-      background-image:
-        url("bg.jpg");
+      position:fixed; inset:0; z-index:-6;
+      background-image:url("bg.jpg");
       background-size:cover;
       background-position:center;
       background-repeat:no-repeat;
-      filter:saturate(1.05) contrast(1.05);
+      opacity:0.42;
+      filter:saturate(1.05) contrast(1.03);
     }
-    /* fallback gradient if no bg.jpg */
-    .fallback{
-      position:fixed;
-      inset:0;
-      z-index:-4;
-      background:
-        radial-gradient(900px 700px at 20% 0%, rgba(255,79,163,0.18), transparent 60%),
-        radial-gradient(900px 700px at 100% 30%, rgba(124,58,237,0.16), transparent 60%),
-        linear-gradient(180deg, #fff6fb, #f7fbff);
-    }
-    /* frosted overlay so text stays readable on phone */
-    .glass{
-      position:fixed;
-      inset:0;
-      z-index:-2;
-      background:linear-gradient(180deg, rgba(255,246,251,0.86), rgba(247,251,255,0.90));
+    .veil{
+      position:fixed; inset:0; z-index:-5;
+      background:linear-gradient(180deg, rgba(243,246,237,0.92), rgba(238,243,228,0.94));
       backdrop-filter: blur(10px);
     }
 
-    /* hand-drawn paper texture (SVG) */
-    .paper{
-      position:fixed;
-      inset:0;
-      z-index:-1;
-      opacity:0.20;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%23000' stroke-opacity='0.12' stroke-width='2'%3E%3Cpath d='M24 36c20-10 34-10 54 0'/%3E%3Cpath d='M24 54c32-10 64-10 96 0'/%3E%3Cpath d='M24 72c38-10 86-10 128 0'/%3E%3Cpath d='M24 90c58-10 118-10 178 0'/%3E%3Cpath d='M24 108c72-10 140-10 204 0'/%3E%3C/g%3E%3Cg fill='%23ff4fa3' fill-opacity='0.10'%3E%3Ccircle cx='210' cy='40' r='14'/%3E%3Ccircle cx='46' cy='210' r='18'/%3E%3Ccircle cx='212' cy='214' r='22'/%3E%3C/g%3E%3C/svg%3E");
-      background-size:320px 320px;
+    /* subtle paper grain */
+    .papertex{
+      position:fixed; inset:0; z-index:-4;
+      opacity:0.25;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23n)' opacity='.20'/%3E%3Cpath d='M12 56c64-22 128-22 192 0' stroke='%2323311f' stroke-opacity='.10' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3Cpath d='M12 88c90-24 180-24 270 0' stroke='%2323311f' stroke-opacity='.08' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='260' cy='64' r='18' fill='%236f8a4d' fill-opacity='.12'/%3E%3Ccircle cx='84' cy='260' r='24' fill='%236f8a4d' fill-opacity='.10'/%3E%3C/svg%3E");
+      background-size:420px 420px;
       pointer-events:none;
     }
 
     .wrap{
-      max-width:720px;
+      max-width:760px;
       margin:auto;
-      padding:20px 14px 80px;
+      padding:14px 12px 110px;
     }
 
-    /* Header (mobile-first) */
     header{
-      background:var(--card2);
+      background:linear-gradient(180deg, var(--paper2), var(--paper));
       border:2px solid var(--border);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
-      padding:16px 14px;
+      padding:14px 12px;
       display:flex;
       gap:12px;
       align-items:center;
@@ -91,16 +86,43 @@
       overflow:hidden;
     }
 
+    /* cute torn edge */
+    header::after{
+      content:"";
+      position:absolute;
+      left:-6px; right:-6px; bottom:-10px;
+      height:34px;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='120' viewBox='0 0 900 120'%3E%3Cpath d='M0 40c60 18 92-12 150 0s90 18 150 0 90-18 150 0 90 18 150 0 90-18 150 0 90 18 150 0V120H0Z' fill='%23fbf9f1'/%3E%3Cpath d='M0 40c60 18 92-12 150 0s90 18 150 0 90-18 150 0 90 18 150 0 90-18 150 0 90 18 150 0' fill='none' stroke='%236f8a4d' stroke-opacity='.25' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-size:900px 120px;
+      background-repeat:repeat-x;
+      opacity:0.95;
+      pointer-events:none;
+    }
+
     .logo{
-      width:74px; height:74px;
+      width:70px; height:70px;
       border-radius:18px;
       overflow:hidden;
-      border:2px solid var(--border);
+      border:2px solid rgba(111,138,77,0.35);
       background:#fff;
       box-shadow:var(--shadowSoft);
       flex:0 0 auto;
+      display:grid;
+      place-items:center;
     }
     .logo img{width:100%;height:100%;object-fit:contain;}
+    .logo-fallback{
+      width:100%;height:100%;
+      display:grid; place-items:center;
+      background:rgba(111,138,77,.10);
+      color:var(--olive-900);
+      font-weight:1000;
+      letter-spacing:.2px;
+      font-size:12px;
+      text-align:center;
+      padding:8px;
+    }
 
     h1{
       margin:0;
@@ -108,12 +130,17 @@
       font-weight:950;
       letter-spacing:0.2px;
       line-height:1.1;
+      color:var(--olive-900);
     }
     .sub{
       margin:6px 0 0;
       font-size:12.5px;
       color:var(--muted);
       line-height:1.55;
+    }
+    .tiny{
+      font-size:11.5px;
+      color:rgba(35,49,31,.75);
     }
 
     .chips{
@@ -128,472 +155,790 @@
       gap:8px;
       padding:7px 12px;
       border-radius:999px;
-      border:1px dashed rgba(255,79,163,0.42);
-      background:rgba(255,79,163,0.12);
-      color:#a11a5b;
+      border:1px dashed rgba(111,138,77,0.55);
+      background:rgba(111,138,77,0.12);
+      color:var(--olive-800);
       font-size:12px;
-      font-weight:850;
+      font-weight:900;
       white-space:nowrap;
     }
-    .chip.alt{
-      border:1px dashed rgba(124,58,237,0.36);
-      background:rgba(124,58,237,0.10);
-      color:#4c1d95;
+
+    /* sticky nav */
+    .nav{
+      position:sticky;
+      top:10px;
+      z-index:20;
+      margin-top:12px;
+      padding:10px;
+      border-radius:var(--radius);
+      background:rgba(251,249,241,0.86);
+      border:2px solid rgba(111,138,77,0.30);
+      box-shadow:0 12px 26px rgba(0,0,0,0.10);
+      backdrop-filter: blur(10px);
+    }
+    .nav .row{
+  display:grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(2, auto); /* ✅ 两行 */
+  gap:8px;
+  overflow:auto;                       /* ✅ 仍可横滑 */
+  padding-bottom:6px;
     }
 
-    /* Cards */
+.btn{ justify-content:center; }
+    .nav .row::-webkit-scrollbar{display:none;}
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border-radius:999px;
+      background:rgba(111,138,77,0.14);
+      border:1px solid rgba(111,138,77,0.35);
+      color:var(--olive-900);
+      font-size:12px;
+      font-weight:950;
+      text-decoration:none;
+      white-space:nowrap;
+      transform: translateZ(0);
+    }
+    .btn:active{transform:scale(0.98);}
+
+    /* cards */
     .grid{
-      margin-top:16px;
+      margin-top:12px;
       display:grid;
       grid-template-columns:1fr;
       gap:14px;
     }
-
     .card{
-      background:var(--card);
-      border:2px solid var(--border);
+      background:linear-gradient(180deg, var(--paper2), var(--paper));
+      border:2px solid rgba(111,138,77,0.30);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
       padding:14px;
       position:relative;
       overflow:hidden;
-      backdrop-filter: blur(10px);
     }
-
     .card::before{
       content:"";
       position:absolute;
-      inset:-1px;
-      background:
-        radial-gradient(420px 250px at 0% 0%, rgba(255,79,163,0.12), transparent 60%),
-        radial-gradient(420px 250px at 100% 20%, rgba(124,58,237,0.11), transparent 60%);
+      inset:10px;
+      border-radius:22px;
+      border:2px dashed rgba(63,83,47,0.18);
       pointer-events:none;
     }
 
-    .head{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
-      position:relative;
-      z-index:1;
+    /* doodle corner */
+    .doodle{
+      position:absolute;
+      right:-10px; top:-8px;
+      width:116px; height:116px;
+      opacity:.22;
+      transform: rotate(8deg);
+      pointer-events:none;
     }
 
-    .h2{
+    .title{
+      display:flex; align-items:center; gap:10px;
+      margin:0 0 8px;
+      padding-right:92px;
+    }
+    .title h2{
+      margin:0;
+      font-size:18px;
+      font-weight:1000;
+      color:var(--olive-900);
+      letter-spacing:.2px;
+    }
+    .desc{
+      margin:0 0 10px;
+      color:var(--muted);
+      font-size:12.5px;
+      line-height:1.55;
+    }
+
+    /* items */
+    .items{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:8px;
+    }
+    .item{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:10px;
+      align-items:start;
+      padding:10px 10px;
+      border-radius:18px;
+      border:1px solid rgba(111,138,77,0.22);
+      background:rgba(255,255,255,0.55);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+    }
+    .name{
+      font-weight:1000;
+      color:var(--olive-900);
+      font-size:14px;
+      line-height:1.2;
       display:flex;
       align-items:center;
-      gap:10px;
-      font-size:16px;
-      font-weight:950;
-      margin:0;
-      line-height:1.15;
+      gap:8px;
     }
-
+    .note{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:4px;
+      line-height:1.45;
+    }
     .price{
-      font-size:11.5px;
-      font-weight:950;
-      padding:8px 10px;
-      border-radius:999px;
-      background:rgba(255,79,163,0.12);
-      border:1px solid rgba(255,79,163,0.25);
-      color:#a11a5b;
+      text-align:right;
+      font-weight:1000;
+      color:var(--olive-900);
+      font-size:13px;
       white-space:nowrap;
     }
-
-    .note{
-      margin:10px 0 10px;
-      font-size:12.5px;
-      color:var(--muted);
-      position:relative;
-      z-index:1;
-    }
-
-    ul{
-      list-style:none;
-      padding:0;
-      margin:0;
-      display:grid;
-      grid-template-columns:1fr;
-      gap:9px;
-      position:relative;
-      z-index:1;
-    }
-
-    li{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      padding:10px 11px;
-      border-radius:18px;
-      background:rgba(255,250,252,0.95);
-      border:1px solid rgba(243,207,225,0.90);
-      font-size:13.5px;
+    .price small{
+      display:block;
+      font-weight:900;
+      color:rgba(35,49,31,.70);
+      font-size:11px;
+      margin-top:2px;
     }
 
     .badge{
-      font-size:11px;
-      font-weight:950;
-      padding:4px 10px;
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px;
       border-radius:999px;
-      background:rgba(255,79,163,0.14);
-      border:1px solid rgba(255,79,163,0.25);
-      color:#a11a5b;
-      white-space:nowrap;
-    }
-    .b2{
-      background:rgba(124,58,237,0.10);
-      border:1px solid rgba(124,58,237,0.22);
-      color:#4c1d95;
+      border:1px dashed rgba(111,138,77,.55);
+      background:rgba(111,138,77,.10);
+      font-size:12px; font-weight:950; color:var(--olive-900);
+      margin-top:10px;
+      width:max-content;
     }
 
-    /* Big hand-drawn illustration per card */
-    .illu{
-      position:absolute;
-      right:-8px;
-      bottom:-16px;
-      width:150px;
-      opacity:0.22;
-      transform: rotate(-6deg);
-      z-index:0;
-      pointer-events:none;
+    /* icons */
+    .icon{
+      width:18px;height:18px; flex:0 0 auto;
+      stroke: var(--olive-900);
+      stroke-width:2.2;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+      fill:none;
+      opacity:.95;
+      filter: drop-shadow(0 1px 0 rgba(0,0,0,.06));
     }
-    .illu.left{
-      right:auto; left:-10px;
-      transform: rotate(8deg);
-      opacity:0.20;
-      width:160px;
+    .icon-fill{ fill: rgba(111,138,77,.18); stroke: var(--olive-900); }
+
+    /* hand-drawn drink mini icon inside item */
+    .mini{
+      width:16px;height:16px;
+      opacity:.9;
     }
 
-    footer{
-      margin-top:28px;
-      text-align:center;
-      color:var(--muted);
+    /* footer floating info */
+    .foot{
+      position:fixed;
+      left:0; right:0; bottom:0;
+      padding:10px 12px 14px;
+      background:linear-gradient(180deg, rgba(238,243,228,0), rgba(238,243,228,0.94));
+      backdrop-filter: blur(10px);
+      z-index:30;
+    }
+    .foot .bar{
+      max-width:760px;
+      margin:auto;
+      border-radius:18px;
+      border:2px solid rgba(111,138,77,0.25);
+      background:rgba(251,249,241,0.88);
+      box-shadow:0 14px 30px rgba(0,0,0,0.10);
+      padding:10px 12px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
       font-size:12px;
-      line-height:1.6;
+      color:var(--olive-900);
+      font-weight:900;
+    }
+    .foot .bar span{display:flex;align-items:center;gap:8px;}
+    .foot a{
+      color:var(--olive-900);
+      text-decoration:none;
+      border-bottom:1px dashed rgba(111,138,77,.55);
     }
 
-    @media(min-width:760px){
-      .wrap{max-width:980px;}
-      .grid{grid-template-columns:1fr 1fr;}
-      ul{grid-template-columns:1fr 1fr;}
-      header .sub{font-size:13px;}
-      h1{font-size:26px;}
-    }
-
-    @media print{
-      .photo-bg,.fallback,.glass,.paper{display:none;}
-      body{background:#fff;}
-      header,.card{box-shadow:none;background:#fff;}
+    /* small screens */
+    @media (max-width:380px){
+      h1{font-size:20px;}
+      .logo{width:64px;height:64px;}
+      .btn{padding:9px 10px;}
+      .title{padding-right:86px;}
+      .doodle{width:104px;height:104px;}
     }
   </style>
 </head>
 
 <body>
-  <div class="fallback"></div>
-  <div class="photo-bg"></div>
-  <div class="glass"></div>
-  <div class="paper"></div>
+  <!-- Optional photo background (put bg.jpg next to this file) -->
+  <div class="photo-bg" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="papertex" aria-hidden="true"></div>
+
+  <!-- Cute hand-drawn SVG icon library (inline, no external files) -->
+  <svg width="0" height="0" style="position:absolute;left:-9999px;top:-9999px">
+    <defs>
+      <!-- Milk tea -->
+      <symbol id="i-milktea" viewBox="0 0 24 24">
+        <path d="M7 8h10l-1 12H8L7 8Z" class="icon-fill"></path>
+        <path d="M9 3h6"></path>
+        <path d="M8 10c2 1 6 1 8 0"></path>
+        <path d="M10 16c.8.8 1.2 1 2 1s1.2-.2 2-1"></path>
+        <path d="M5 6c2-2 12-2 14 0"></path>
+      </symbol>
+
+      <!-- Fruit tea -->
+      <symbol id="i-fruit" viewBox="0 0 24 24">
+        <path d="M12 6c3 0 6 2 6 6s-3 8-6 8-6-4-6-8 3-6 6-6Z" class="icon-fill"></path>
+        <path d="M12 6c0-2 1-3 3-3"></path>
+        <path d="M15 3c1 0 2 1 2 2"></path>
+        <path d="M9 12c2-1 4-1 6 0"></path>
+      </symbol>
+
+      <!-- Smoothie -->
+      <symbol id="i-smoothie" viewBox="0 0 24 24">
+        <path d="M8 7h8l-1 13H9L8 7Z" class="icon-fill"></path>
+        <path d="M10 4h4"></path>
+        <path d="M12 4v3"></path>
+        <path d="M9 11c1.5 1 4.5 1 6 0"></path>
+        <path d="M9.5 15c1 .6 4 .6 5 0"></path>
+      </symbol>
+
+      <!-- Fresh soda -->
+      <symbol id="i-soda" viewBox="0 0 24 24">
+        <path d="M8 9h8l-1 11H9L8 9Z" class="icon-fill"></path>
+        <path d="M10 3h4"></path>
+        <path d="M11 3v2"></path>
+        <path d="M12.5 3v2"></path>
+        <path d="M10 12c.6.6.9 1 .9 1.6S10.5 15 10 15.6"></path>
+        <path d="M14 12c.6.6.9 1 .9 1.6S14.5 15 14 15.6"></path>
+        <path d="M17.5 8c1.5 1 1.5 3 0 4"></path>
+      </symbol>
+
+      <!-- Yakult -->
+      <symbol id="i-yakult" viewBox="0 0 24 24">
+        <path d="M9 7c2-1 4-1 6 0"></path>
+        <path d="M9 7l1 13h4l1-13" class="icon-fill"></path>
+        <path d="M10 4h4"></path>
+        <path d="M10.2 13c1.2.6 2.4.6 3.6 0"></path>
+      </symbol>
+
+      <!-- Cheese foam -->
+      <symbol id="i-cheese" viewBox="0 0 24 24">
+        <path d="M7 10h10l-1 10H8L7 10Z" class="icon-fill"></path>
+        <path d="M8 10c.5-3 2-5 4-5s3.5 2 4 5"></path>
+        <path d="M10 16c.7.7 1.3 1 2 1s1.3-.3 2-1"></path>
+        <path d="M6 9c3-2 9-2 12 0"></path>
+      </symbol>
+
+      <!-- Crème brûlée -->
+      <symbol id="i-brulee" viewBox="0 0 24 24">
+        <path d="M7 12h10l-1 8H8l-1-8Z" class="icon-fill"></path>
+        <path d="M8 12c1-2 2-3 4-3s3 1 4 3"></path>
+        <path d="M9 8c.2-1 1-2 3-2s2.8 1 3 2"></path>
+        <path d="M10 15h4"></path>
+      </symbol>
+
+      <!-- Bloom special -->
+      <symbol id="i-bloom" viewBox="0 0 24 24">
+        <path d="M12 7c1-3 4-4 6-2s1 5-2 6" class="icon-fill"></path>
+        <path d="M12 7c-1-3-4-4-6-2s-1 5 2 6" class="icon-fill"></path>
+        <path d="M12 10c3-1 6 1 5 4s-4 4-5 1" class="icon-fill"></path>
+        <path d="M12 10c-3-1-6 1-5 4s4 4 5 1" class="icon-fill"></path>
+        <path d="M12 9v11"></path>
+      </symbol>
+
+      <!-- Topping -->
+      <symbol id="i-topping" viewBox="0 0 24 24">
+        <path d="M7 8h10l-1 12H8L7 8Z" class="icon-fill"></path>
+        <path d="M9 12c1 1 1 2 0 3"></path>
+        <path d="M12 12c1 1 1 2 0 3"></path>
+        <path d="M15 12c1 1 1 2 0 3"></path>
+        <path d="M9 5c2-1 4-1 6 0"></path>
+      </symbol>
+
+      <!-- Milk option -->
+      <symbol id="i-milk" viewBox="0 0 24 24">
+        <path d="M9 7c2-1 4-1 6 0"></path>
+        <path d="M9 7l1 13h4l1-13" class="icon-fill"></path>
+        <path d="M10 4h4"></path>
+        <path d="M10.3 14c1.2.6 2.2.6 3.4 0"></path>
+      </symbol>
+
+      <!-- Sugar -->
+      <symbol id="i-sugar" viewBox="0 0 24 24">
+        <path d="M8 10l4-4 4 4-4 10-4-10Z" class="icon-fill"></path>
+        <path d="M10 12h4"></path>
+        <path d="M9.5 15h5"></path>
+      </symbol>
+
+      <!-- Ice -->
+      <symbol id="i-ice" viewBox="0 0 24 24">
+        <path d="M8 9l4-3 4 3v6l-4 3-4-3V9Z" class="icon-fill"></path>
+        <path d="M12 6v12"></path>
+        <path d="M8 12h8"></path>
+      </symbol>
+
+      <!-- tiny cup for line items -->
+      <symbol id="i-mini" viewBox="0 0 24 24">
+        <path d="M7 9h10l-1 11H8L7 9Z" class="icon-fill"></path>
+        <path d="M9 6c2-1 4-1 6 0"></path>
+        <path d="M10 14c.8.8 1.2 1 2 1s1.2-.2 2-1"></path>
+      </symbol>
+
+      <!-- doodle background (leaf + sparkle) -->
+      <symbol id="i-doodle" viewBox="0 0 120 120">
+        <path d="M20 68c18-28 40-42 78-48" fill="none" stroke="rgba(35,49,31,.75)" stroke-width="4" stroke-linecap="round"/>
+        <path d="M30 78c10-12 22-18 38-22" fill="none" stroke="rgba(111,138,77,.8)" stroke-width="4" stroke-linecap="round"/>
+        <path d="M76 24c6 10-4 22-16 24 2-14 10-22 16-24Z" fill="rgba(111,138,77,.35)" stroke="rgba(35,49,31,.55)" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M84 40l6-6m-6 0l6 6" stroke="rgba(35,49,31,.6)" stroke-width="4" stroke-linecap="round"/>
+        <path d="M24 32l4-4m-4 0l4 4" stroke="rgba(35,49,31,.45)" stroke-width="4" stroke-linecap="round"/>
+      </symbol>
+    </defs>
+  </svg>
 
   <div class="wrap">
-
     <header>
-      <div class="logo"><img src="logo.jpeg" alt="Bloom Logo"></div>
+      <div class="logo" aria-label="Logo">
+        <!-- Put your real logo as logo.png next to this file -->
+        <img src="logo.jpeg" alt="Bloom Boba Tea">
+        <div class="logo-fallback">BLOOM<br>BOBA</div>
+      </div>
+
       <div>
-        <h1>Bloom Boba Tea 🌸</h1>
-        <div class="sub">
-          Blvd. Bernardo Quintana 502, Centro Sur · 76090 Santiago de Querétaro, Qro.<br>
-          Dentro de <b>Chedraui Select Centro Sur</b>
-        </div>
-        <div class="chips">
-          <span class="chip">
-            <!-- mini clock doodle -->
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="9" stroke="#a11a5b" stroke-width="2.2"/>
-              <path d="M12 7v6l4 2" stroke="#a11a5b" stroke-width="2.2" stroke-linecap="round"/>
-            </svg>
-            Lun–Dom · 11:00–21:00
-          </span>
-          <span class="chip alt">
-            <!-- mini boba doodle -->
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M7 7h10l-1.2 14H8.2L7 7Z" stroke="#4c1d95" stroke-width="2.2" stroke-linejoin="round"/>
-              <path d="M10 3l6 6" stroke="#4c1d95" stroke-width="2.2" stroke-linecap="round"/>
-              <circle cx="10" cy="17" r="1.4" fill="#4c1d95"/>
-              <circle cx="14" cy="18.5" r="1.4" fill="#4c1d95"/>
-            </svg>
-            Azúcar/Hielo 0–100%
-          </span>
+        <h1>Bloom Boba Tea</h1>
+        <p class="sub">
+          Blvd. Bernardo Quintana 502, Centro Sur, 76090 Santiago de Querétaro, Qro.<br/>
+          <span class="tiny">En Chedraui Select Centro Sur · Horario: 11:00–21:00 (Lunes a Domingo)</span>
+        </p>
+
+        <div class="chips" aria-label="Info rápida">
+          <span class="chip">🧋 Tamaños: M / L</span>
+          <span class="chip">🧊 Hielo y azúcar a tu gusto</span>
+          <span class="chip">✨ Hecho al momento</span>
         </div>
       </div>
     </header>
 
-    <div class="grid">
+    <!-- quick jump -->
+    <nav class="nav" aria-label="Saltos rápidos">
+      <div class="row">
+        <a class="btn" href="#milk-tea"><svg class="icon" aria-hidden="true"><use href="#i-milktea"></use></svg>Milk Tea</a>
+        <a class="btn" href="#fruit-tea"><svg class="icon" aria-hidden="true"><use href="#i-fruit"></use></svg>Fruit Tea</a>
+        <a class="btn" href="#smoothie"><svg class="icon" aria-hidden="true"><use href="#i-smoothie"></use></svg>Smoothie</a>
+        <a class="btn" href="#fresh-soda"><svg class="icon" aria-hidden="true"><use href="#i-soda"></use></svg>Fresh Soda</a>
+        <a class="btn" href="#yakult"><svg class="icon" aria-hidden="true"><use href="#i-yakult"></use></svg>Fresh Fruit Yakult</a>
+        <a class="btn" href="#cheese-foam"><svg class="icon" aria-hidden="true"><use href="#i-cheese"></use></svg>Cheese Foam</a>
+        <a class="btn" href="#brulee"><svg class="icon" aria-hidden="true"><use href="#i-brulee"></use></svg>Crème Brûlée</a>
+        <a class="btn" href="#special"><svg class="icon" aria-hidden="true"><use href="#i-bloom"></use></svg>Bloom Special</a>
+        <a class="btn" href="#custom"><svg class="icon" aria-hidden="true"><use href="#i-topping"></use></svg>Personaliza</a>
+      </div>
+    </nav>
 
-      <!-- Cheese Foam -->
-      <section class="card">
-        <div class="head">
-          <h2 class="h2">
-            <!-- icon: cheese foam -->
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M6 10c2-2 10-2 12 0" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
-              <path d="M7 10h10l-1 11c-.1 1-1 2-2 2H10c-1 0-2-1-2-2L7 10Z" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/>
-              <path d="M8 8c2-2 6-2 8 0" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
-              <path d="M9 6c2-2 4-2 6 0" stroke="#111" stroke-width="2.2" stroke-linecap="round" opacity=".7"/>
-            </svg>
-            Cheese Foam
-          </h2>
-          <span class="price">$95</span>
+    <main class="grid">
+
+      <!-- MILK TEA -->
+      <section class="card" id="milk-tea">
+        <svg class="doodle" aria-hidden="true"><use href="#i-doodle"></use></svg>
+        <div class="title">
+          <svg class="icon" aria-hidden="true"><use href="#i-milktea"></use></svg>
+          <h2>Milk Tea</h2>
         </div>
-        <div class="note">Espuma cremosa + té/fruta. (Sí, es “wow” 🧀✨)</div>
-        <ul>
-          <li>Tiramisú Cheese <span class="badge">⭐ Top</span></li>
-          <li>Jasmine Cheese</li>
-          <li>Durazno Cheese</li>
-          <li>Strawberry Cheese <span class="badge">⭐</span></li>
-          <li>Mango Cheese <span class="badge">⭐</span></li>
-          <li>Pineapple Cheese</li>
-          <li>Drangogrape Cheese</li>
-          <li>Oreo Matcha Cheese</li>
-          <li>Matcha Cheese</li>
-          <li>Oreo Cheese</li>
-          <li>Taro Cheese</li>
-        </ul>
-
-        <!-- hand-drawn big cup + dripping foam -->
-        <svg class="illu" viewBox="0 0 180 180" fill="none">
-          <path d="M56 58c22-16 46-16 68 0" stroke="#111" stroke-width="4" stroke-linecap="round"/>
-          <path d="M52 68h76l-9 86c-1 8-7 14-15 14H76c-8 0-14-6-15-14l-9-86Z" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M92 26l34 34" stroke="#111" stroke-width="4" stroke-linecap="round"/>
-          <path d="M92 26l-10 10" stroke="#111" stroke-width="4" stroke-linecap="round"/>
-          <path d="M70 78c20 10 40 10 60 0" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".7"/>
-          <path d="M78 50c-2 10 10 10 8 18-2 8-14 4-10 14" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".65"/>
-          <circle cx="78" cy="132" r="6" fill="#111"/>
-          <circle cx="102" cy="142" r="6" fill="#111"/>
-          <circle cx="118" cy="126" r="6" fill="#111"/>
-        </svg>
+        <p class="desc">Clásicos cremositos. Puedes elegir leche, azúcar y hielo. 💚</p>
+        <div class="items">
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Original Milk Tea</div>
+              <div class="note">Negro + leche. Recomendado con perlas.</div>
+            </div>
+            <div class="price">$59 <small>M</small> $69 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Jasmine Green Milk Tea</div>
+              <div class="note">Té jazmín, aroma floral.</div>
+            </div>
+            <div class="price">$59 <small>M</small> $69 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Taro Milk Tea</div>
+              <div class="note">Suave y dulce, vibe moradita.</div>
+            </div>
+            <div class="price">$65 <small>M</small> $75 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Matcha Milk Tea</div>
+              <div class="note">Matcha auténtico, cremoso.</div>
+            </div>
+            <div class="price">$69 <small>M</small> $79 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Thai Milk Tea</div>
+              <div class="note">Especias suaves, color naranja cute.</div>
+            </div>
+            <div class="price">$69 <small>M</small> $79 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Brown Sugar Milk Tea</div>
+              <div class="note">Dulzor caramelito. 🔥</div>
+            </div>
+            <div class="price">$75 <small>M</small> $85 <small>L</small></div>
+          </div>
+        </div>
       </section>
 
-      <!-- Creme Brulee -->
-      <section class="card">
-        <div class="head">
-          <h2 class="h2">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M12 3c2 3 2 5 0 8-2-3-2-5 0-8Z" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/>
-              <path d="M7 13c2-2 8-2 10 0" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
-              <path d="M6 14h12l-1 7c-.1 1-1 2-2 2H9c-1 0-2-1-2-2l-1-7Z" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/>
-            </svg>
-            Crème Brûlée
-          </h2>
-          <span class="price">$95</span>
+      <!-- FRUIT TEA -->
+      <section class="card" id="fruit-tea">
+        <svg class="doodle" aria-hidden="true"><use href="#i-doodle"></use></svg>
+        <div class="title">
+          <svg class="icon" aria-hidden="true"><use href="#i-fruit"></use></svg>
+          <h2>Fruit Tea</h2>
         </div>
-        <div class="note">Sabor tostado tipo postre: dulce, suave y adictivo 🔥</div>
-        <ul>
-          <li>Crème Brûlée Boba Milk Tea <span class="badge">⭐</span></li>
-          <li>Crème Brûlée Taro Milk</li>
-          <li>Crème Brûlée Matcha Milk</li>
-          <li>Crème Brûlée Cocoa Milk</li>
-          <li>Crème Brûlée Taro Smoothie</li>
-          <li>Crème Brûlée Matcha Smoothie</li>
-          <li>Cookies & Cream Brûlée Smoothie</li>
-        </ul>
-
-        <!-- hand-drawn brûlée spoon -->
-        <svg class="illu left" viewBox="0 0 180 180" fill="none">
-          <path d="M62 120c18 18 46 18 64 0" stroke="#111" stroke-width="4" stroke-linecap="round"/>
-          <path d="M72 86c6 14 34 14 40 0" stroke="#111" stroke-width="4" stroke-linecap="round"/>
-          <path d="M90 30c14 2 24 14 22 28-2 16-22 28-22 28S68 74 66 58c-2-14 8-26 24-28Z" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M120 134l30 30" stroke="#111" stroke-width="4" stroke-linecap="round"/>
-          <path d="M132 144c8 2 12 6 14 14" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".7"/>
-        </svg>
+        <p class="desc">Refrescantes y frutales. Perfectos con 50% azúcar y hielo 70%. 🍓🍋</p>
+        <div class="items">
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Lemon Green Tea</div>
+              <div class="note">Cítrico y ligero.</div>
+            </div>
+            <div class="price">$59 <small>M</small> $69 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Peach Tea</div>
+              <div class="note">Durazno dulce y aroma frutal.</div>
+            </div>
+            <div class="price">$62 <small>M</small> $72 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Mango Tea</div>
+              <div class="note">Súper tropical, va bien con aloe.</div>
+            </div>
+            <div class="price">$62 <small>M</small> $72 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Strawberry Tea</div>
+              <div class="note">Fresita, ligeramente ácida.</div>
+            </div>
+            <div class="price">$62 <small>M</small> $72 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Passion Fruit Tea</div>
+              <div class="note">Maracuyá power ⚡</div>
+            </div>
+            <div class="price">$65 <small>M</small> $75 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Lychee Tea</div>
+              <div class="note">Dulce floral, top con jelly.</div>
+            </div>
+            <div class="price">$65 <small>M</small> $75 <small>L</small></div>
+          </div>
+        </div>
       </section>
 
-      <!-- Especiales -->
-      <section class="card">
-        <div class="head">
-          <h2 class="h2">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2 2-6Z" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/>
-              <path d="M18 13l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3Z" stroke="#111" stroke-width="2.2" stroke-linejoin="round" opacity=".7"/>
-            </svg>
-            Especiales Bloom
-          </h2>
-          <span class="price">$95</span>
+      <!-- SMOOTHIE -->
+      <section class="card" id="smoothie">
+        <svg class="doodle" aria-hidden="true"><use href="#i-doodle"></use></svg>
+        <div class="title">
+          <svg class="icon" aria-hidden="true"><use href="#i-smoothie"></use></svg>
+          <h2>Smoothie</h2>
         </div>
-        <div class="note">Combinaciones “firma” con vibes de postre ✨</div>
-        <ul>
-          <li>Oreo Brûlée Green Milk Tea <span class="badge">⭐</span></li>
-          <li>Dirty Matcha</li>
-          <li>Ice Cream Taro Milk</li>
-          <li>Bloom Cocoa Milk</li>
-          <li>Mixberry Cheese Foam <span class="badge">⭐</span></li>
-          <li>Brûlée Matcha Oreo Smoothie</li>
-          <li>Brûlée Taro Oreo Smoothie</li>
-        </ul>
-
-        <!-- hand-drawn hearts -->
-        <svg class="illu" viewBox="0 0 180 180" fill="none">
-          <path d="M70 70c10-14 30-8 30 8 0 22-30 34-30 34S40 100 40 78c0-16 20-22 30-8Z" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M126 82c8-10 24-6 24 6 0 18-24 28-24 28s-24-10-24-28c0-12 16-16 24-6Z" stroke="#111" stroke-width="4" stroke-linejoin="round" opacity=".8"/>
-          <path d="M44 132c22 6 44 6 66 0" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".55"/>
-        </svg>
+        <p class="desc">Textura frappé. Frío, espeso y feliz. 😋</p>
+        <div class="items">
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Mango Smoothie</div>
+              <div class="note">Tropical clásico.</div>
+            </div>
+            <div class="price">$75 <small>M</small> $85 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Strawberry Smoothie</div>
+              <div class="note">Fresita cremosa.</div>
+            </div>
+            <div class="price">$75 <small>M</small> $85 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Peach Smoothie</div>
+              <div class="note">Suave y aromático.</div>
+            </div>
+            <div class="price">$75 <small>M</small> $85 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Matcha Smoothie</div>
+              <div class="note">Matcha + frappé, energía zen.</div>
+            </div>
+            <div class="price">$79 <small>M</small> $89 <small>L</small></div>
+          </div>
+        </div>
       </section>
 
-      <!-- Milk Tea -->
-      <section class="card">
-        <div class="head">
-          <h2 class="h2">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M6 8h12l-1 14H7L6 8Z" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/>
-              <path d="M9 4c2-2 4-2 6 0" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
-              <path d="M8 10c4 2 8 2 12 0" stroke="#111" stroke-width="2.2" stroke-linecap="round" opacity=".7"/>
-              <circle cx="9" cy="18" r="1.3" fill="#111"/>
-              <circle cx="12" cy="19.2" r="1.3" fill="#111"/>
-              <circle cx="15" cy="18" r="1.3" fill="#111"/>
-            </svg>
-            Milk Tea
-          </h2>
-          <span class="price">Ch $75 · G $85</span>
+      <!-- FRESH SODA -->
+      <section class="card" id="fresh-soda">
+        <svg class="doodle" aria-hidden="true"><use href="#i-doodle"></use></svg>
+        <div class="title">
+          <svg class="icon" aria-hidden="true"><use href="#i-soda"></use></svg>
+          <h2>Fresh Soda</h2>
         </div>
-        <div class="note">Clásicos con leche: suaves, aromáticos y súper boba mood.</div>
-        <ul>
-          <li>House Milk Tea <span class="badge">⭐</span></li>
-          <li>Jasmine Milk Tea</li>
-          <li>Brown Sugar Milk Tea <span class="badge">⭐</span></li>
-          <li>Matcha Milk Tea</li>
-          <li>Taro Milk Tea</li>
-          <li>Cookies & Cream</li>
-          <li>Horchata Milk Tea</li>
-          <li>Chai Vainilla Milk Tea</li>
-          <li>Strawberry Milk Tea</li>
-          <li>Chocolate Milk Tea</li>
-        </ul>
-
-        <!-- hand-drawn tea leaf -->
-        <svg class="illu left" viewBox="0 0 180 180" fill="none">
-          <path d="M44 124c42-6 86-50 102-94 8 42-10 106-52 124-22 10-44 2-50-30Z" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M62 122c20-14 40-38 54-66" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".7"/>
-        </svg>
+        <p class="desc">Burbujeante y refrescante. ✨🫧</p>
+        <div class="items">
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Lemon Soda</div>
+              <div class="note">Cítrico burbujeante.</div>
+            </div>
+            <div class="price">$62 <small>M</small> $72 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Passion Fruit Soda</div>
+              <div class="note">Maracuyá + soda = 🔥</div>
+            </div>
+            <div class="price">$65 <small>M</small> $75 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Lychee Soda</div>
+              <div class="note">Dulce floral, muy cute.</div>
+            </div>
+            <div class="price">$65 <small>M</small> $75 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Mango Soda</div>
+              <div class="note">Tropical chispeante.</div>
+            </div>
+            <div class="price">$65 <small>M</small> $75 <small>L</small></div>
+          </div>
+        </div>
       </section>
 
-      <!-- Smoothies -->
-      <section class="card">
-        <div class="head">
-          <h2 class="h2">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M7 7h10l-1 15H8L7 7Z" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/>
-              <path d="M9 2h6" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
-              <path d="M8 11c4 2 8 2 12 0" stroke="#111" stroke-width="2.2" stroke-linecap="round" opacity=".7"/>
-            </svg>
-            Smoothies
-          </h2>
-          <span class="price">Ch $80 · G $90</span>
+      <!-- YAKULT -->
+      <section class="card" id="yakult">
+        <svg class="doodle" aria-hidden="true"><use href="#i-doodle"></use></svg>
+        <div class="title">
+          <svg class="icon" aria-hidden="true"><use href="#i-yakult"></use></svg>
+          <h2>Fresh Fruit Yakult</h2>
         </div>
-        <div class="note">Fruta + hielo: fresco, cremoso y perfecto para Querétaro ☀️</div>
-        <ul>
-          <li>Mango <span class="badge">⭐</span></li>
-          <li>Durazno</li>
-          <li>Strawberry <span class="badge">⭐</span></li>
-          <li>Lychee</li>
-          <li>Maracuyá</li>
-          <li>Sunny Orange</li>
-          <li>Sweet Pineapple</li>
-          <li>Drangogrape</li>
-          <li>Spicy Mango · $95 <span class="badge b2">🌶️</span></li>
-          <li>Spicy Strawberry · $95 <span class="badge b2">🌶️</span></li>
-        </ul>
-
-        <!-- hand-drawn fruit -->
-        <svg class="illu" viewBox="0 0 180 180" fill="none">
-          <path d="M60 112c0-26 18-44 40-44s40 18 40 44-18 44-40 44-40-18-40-44Z" stroke="#111" stroke-width="4"/>
-          <path d="M100 52c0-10 6-18 18-20" stroke="#111" stroke-width="4" stroke-linecap="round"/>
-          <path d="M88 40c6 8 14 12 26 12" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".75"/>
-          <path d="M78 112c18 10 34 10 52 0" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".65"/>
-        </svg>
+        <p class="desc">Yakult + fruta. Dulce, ácido y refrescante. 🥭🍓</p>
+        <div class="items">
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Mango Yakult</div>
+              <div class="note">Favorito tropical.</div>
+            </div>
+            <div class="price">$75 <small>M</small> $85 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Strawberry Yakult</div>
+              <div class="note">Fresita + Yakult = match.</div>
+            </div>
+            <div class="price">$75 <small>M</small> $85 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Passion Fruit Yakult</div>
+              <div class="note">Maracuyá con punch.</div>
+            </div>
+            <div class="price">$79 <small>M</small> $89 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Lychee Yakult</div>
+              <div class="note">Dulce floral y suave.</div>
+            </div>
+            <div class="price">$79 <small>M</small> $89 <small>L</small></div>
+          </div>
+        </div>
       </section>
 
-      <!-- Fruit Tea -->
-      <section class="card">
-        <div class="head">
-          <h2 class="h2">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="8" stroke="#111" stroke-width="2.2"/>
-              <path d="M12 4v16M4 12h16" stroke="#111" stroke-width="2.2" stroke-linecap="round" opacity=".7"/>
-              <path d="M7 8c3 3 7 3 10 0" stroke="#111" stroke-width="2.2" stroke-linecap="round" opacity=".55"/>
-              <path d="M7 16c3-3 7-3 10 0" stroke="#111" stroke-width="2.2" stroke-linecap="round" opacity=".55"/>
-            </svg>
-            Fruit Tea
-          </h2>
-          <span class="price">Ch $79 · G $89</span>
+      <!-- CHEESE FOAM -->
+      <section class="card" id="cheese-foam">
+        <svg class="doodle" aria-hidden="true"><use href="#i-doodle"></use></svg>
+        <div class="title">
+          <svg class="icon" aria-hidden="true"><use href="#i-cheese"></use></svg>
+          <h2>Cheese Foam</h2>
         </div>
-        <div class="note">Té verde + fruta: ligero, aromático y refrescante.</div>
-        <ul>
-          <li>Bloom Fruit Tea <span class="badge">⭐</span></li>
-          <li>Strawberry Green Tea</li>
-          <li>Durazno Green Tea</li>
-          <li>Lychee Green Tea</li>
-          <li>Mango Green Tea</li>
-          <li>Sunny Orange Tea</li>
-          <li>Honey Lemon Tea <span class="badge">⭐</span></li>
-          <li>Sweet Pineapple Tea</li>
-          <li>Drangogrape Tea</li>
-          <li>Magic Butterfly 🦋</li>
-        </ul>
-
-        <!-- hand-drawn butterfly -->
-        <svg class="illu left" viewBox="0 0 180 180" fill="none">
-          <path d="M90 84c-6-10-22-20-36-10-16 12 0 40 24 34 8-2 10-10 12-24Z" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M90 84c6-10 22-20 36-10 16 12 0 40-24 34-8-2-10-10-12-24Z" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M90 80v56" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".75"/>
-          <path d="M86 76c-10-8-16-18-18-30" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".6"/>
-          <path d="M94 76c10-8 16-18 18-30" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".6"/>
-        </svg>
+        <p class="desc">Espuma de queso cremosa encima. Salado-dulce 😭💚</p>
+        <div class="items">
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Cheese Foam Green Tea</div>
+              <div class="note">Equilibrio perfecto, súper aromático.</div>
+            </div>
+            <div class="price">$79 <small>M</small> $89 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Cheese Foam Jasmine Tea</div>
+              <div class="note">Floral + cremoso.</div>
+            </div>
+            <div class="price">$79 <small>M</small> $89 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Cheese Foam Mango Tea</div>
+              <div class="note">Fruta tropical con espuma.</div>
+            </div>
+            <div class="price">$82 <small>M</small> $92 <small>L</small></div>
+          </div>
+        </div>
       </section>
 
-      <!-- Toppings -->
-      <section class="card">
-        <div class="head">
-          <h2 class="h2">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <circle cx="8" cy="16" r="2" fill="#111"/>
-              <circle cx="12" cy="18" r="2" fill="#111"/>
-              <circle cx="16" cy="16" r="2" fill="#111"/>
-              <path d="M6 10h12l-1 11H7L6 10Z" stroke="#111" stroke-width="2.2" stroke-linejoin="round" opacity=".75"/>
-            </svg>
-            Toppings
-          </h2>
-          <span class="price">¡Personaliza!</span>
+      <!-- CREME BRULEE -->
+      <section class="card" id="brulee">
+        <svg class="doodle" aria-hidden="true"><use href="#i-doodle"></use></svg>
+        <div class="title">
+          <svg class="icon" aria-hidden="true"><use href="#i-brulee"></use></svg>
+          <h2>Crème Brûlée</h2>
         </div>
-        <div class="note">Elige tus toppings favoritos (se pueden combinar).</div>
-        <ul>
-          <li>Tapioca <span class="badge b2">$15</span></li>
-          <li>Lychee Jelly <span class="badge b2">$15</span></li>
-          <li>Rainbow Jelly <span class="badge b2">$15</span></li>
-          <li>Jelly de Maracuyá <span class="badge b2">$15</span></li>
-          <li>Mango Popping Boba <span class="badge b2">$15</span></li>
-          <li>Strawberry Popping Boba <span class="badge b2">$15</span></li>
-          <li>Oreo Cookie <span class="badge b2">$10</span></li>
-          <li>Cheese Foam <span class="badge b2">$15</span></li>
-          <li>Crema Batida <span class="badge b2">$12</span></li>
-        </ul>
-
-        <!-- hand-drawn pearls -->
-        <svg class="illu" viewBox="0 0 180 180" fill="none">
-          <circle cx="70" cy="104" r="10" stroke="#111" stroke-width="4"/>
-          <circle cx="104" cy="110" r="9" stroke="#111" stroke-width="4" opacity=".9"/>
-          <circle cx="130" cy="96" r="8" stroke="#111" stroke-width="4" opacity=".85"/>
-          <circle cx="92" cy="136" r="8" stroke="#111" stroke-width="4" opacity=".75"/>
-          <path d="M54 76c28-10 58-10 84 0" stroke="#111" stroke-width="4" stroke-linecap="round" opacity=".55"/>
-        </svg>
+        <p class="desc">Cremita caramelizada (estilo postre). 🍮✨</p>
+        <div class="items">
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Crème Brûlée Milk Tea</div>
+              <div class="note">Postre en vaso. Muy top con 50% azúcar.</div>
+            </div>
+            <div class="price">$89 <small>M</small> $99 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Crème Brûlée Matcha</div>
+              <div class="note">Matcha + brûlée = elegante y cute.</div>
+            </div>
+            <div class="price">$95 <small>M</small> $105 <small>L</small></div>
+          </div>
+        </div>
       </section>
 
+      <!-- BLOOM SPECIAL -->
+      <section class="card" id="special">
+        <svg class="doodle" aria-hidden="true"><use href="#i-doodle"></use></svg>
+        <div class="title">
+          <svg class="icon" aria-hidden="true"><use href="#i-bloom"></use></svg>
+          <h2>Bloom Special</h2>
+        </div>
+        <p class="desc">Combinaciones especiales de la casa. 🌿✨</p>
+        <div class="items">
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Bloom Olive Matcha</div>
+              <div class="note">Matcha suave + toque cremoso (signature).</div>
+            </div>
+            <div class="price">$99 <small>M</small> $109 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Bloom Mango Cloud</div>
+              <div class="note">Mango + espuma cremosa (cloud).</div>
+            </div>
+            <div class="price">$99 <small>M</small> $109 <small>L</small></div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="name"><svg class="mini icon" aria-hidden="true"><use href="#i-mini"></use></svg>Bloom Brown Sugar Brûlée</div>
+              <div class="note">Azúcar morena + vibe brûlée.</div>
+            </div>
+            <div class="price">$109 <small>M</small> $119 <small>L</small></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CUSTOMIZE -->
+      <section class="card" id="custom">
+        <svg class="doodle" aria-hidden="true"><use href="#i-doodle"></use></svg>
+        <div class="title">
+          <svg class="icon" aria-hidden="true"><use href="#i-topping"></use></svg>
+          <h2>Personaliza tu bebida</h2>
+        </div>
+        <p class="desc">Elige toppings, leche, azúcar y hielo. (Pregúntanos por disponibilidad) 💬</p>
+
+        <div class="badge">
+          <svg class="icon" aria-hidden="true"><use href="#i-topping"></use></svg>
+          Toppings (Extras)
+        </div>
+        <div class="chips">
+          <span class="chip">🧋 Perlas de tapioca</span>
+          <span class="chip">🍮 Pudding</span>
+          <span class="chip">🧊 Jelly</span>
+          <span class="chip">🫘 Frijol rojo</span>
+          <span class="chip">🧃 Aloe</span>
+          <span class="chip">✨ Espuma extra</span>
+        </div>
+
+        <div class="badge">
+          <svg class="icon" aria-hidden="true"><use href="#i-milk"></use></svg>
+          Leche
+        </div>
+        <div class="chips">
+          <span class="chip">🥛 Leche entera</span>
+          <span class="chip">🌱 Leche de avena</span>
+          <span class="chip">🥥 Leche de coco</span>
+          <span class="chip">🍶 Sin leche</span>
+        </div>
+
+        <div class="badge">
+          <svg class="icon" aria-hidden="true"><use href="#i-sugar"></use></svg>
+          Azúcar
+        </div>
+        <div class="chips">
+          <span class="chip">0%</span>
+          <span class="chip">25%</span>
+          <span class="chip">50%</span>
+          <span class="chip">75%</span>
+          <span class="chip">100%</span>
+        </div>
+
+        <div class="badge">
+          <svg class="icon" aria-hidden="true"><use href="#i-ice"></use></svg>
+          Hielo
+        </div>
+        <div class="chips">
+          <span class="chip">0%</span>
+          <span class="chip">30%</span>
+          <span class="chip">50%</span>
+          <span class="chip">70%</span>
+          <span class="chip">100%</span>
+        </div>
+
+        <p class="desc" style="margin-top:14px;">
+          <b>Nota:</b> Precios y sabores pueden variar por temporada. Si quieres, te lo dejo “editable” con tu lista exacta (nombre + precio) y lo actualizo en 2 minutos.
+        </p>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- sticky footer bar -->
+  <div class="foot" role="contentinfo" aria-label="Info fija">
+    <div class="bar">
+      <span>🫧 Bloom Boba Tea · 11:00–21:00</span>
+      <span><a href="#custom">Personaliza ✍️</a></span>
     </div>
-
-    <footer>
-      💖 Gracias por visitar Bloom Boba Tea · Centro Sur · Querétaro 🌸<br/>
-      Tip: Puedes pedir menos hielo o menos azúcar (0–100%).
-    </footer>
-
   </div>
 </body>
 </html>
